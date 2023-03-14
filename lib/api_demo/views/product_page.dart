@@ -13,30 +13,27 @@ class ProductListTwoWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Product List (Pagination)'),
       ),
-      body: RefreshIndicator(
-        onRefresh: () => _productController.refresh(),
-        child: NotificationListener<ScrollNotification>(
-          onNotification: (ScrollNotification scrollInfo) {
-            if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-              _productController.loadMore();
-            }
-            return true;
-          },
-          child: Column(
-            children: [
-              Expanded(child: _productController.buildProductList()),
-              Obx(() {
-                if (_productController.isLoading.value) {
-                  return const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  return Container();
-                }
-              }),
-            ],
-          ),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification scrollInfo) {
+          if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+            _productController.loadMore();
+          }
+          return true;
+        },
+        child: Column(
+          children: [
+            Expanded(child: _productController.buildProductList()),
+            Obx(() {
+              if (_productController.isLoading.value) {
+                return const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return Container();
+              }
+            }),
+          ],
         ),
       ),
     );

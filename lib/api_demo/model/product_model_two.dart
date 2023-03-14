@@ -1,12 +1,12 @@
 // To parse this JSON data, do
 //
-//     final productModel = productModelFromJson(jsonString);
+//     final productModelTwo = productModelTwoFromJson(jsonString);
 
 import 'dart:convert';
 
-List<ProductModelTwo> productModelFromJson(String str) => List<ProductModelTwo>.from(json.decode(str).map((x) => ProductModelTwo.fromJson(x)));
+List<ProductModelTwo> productModelTwoFromJson(String str) => List<ProductModelTwo>.from(json.decode(str).map((x) => ProductModelTwo.fromJson(x)));
 
-String productModelToJson(List<ProductModelTwo> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String productModelTwoToJson(List<ProductModelTwo> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ProductModelTwo {
   ProductModelTwo({
@@ -46,10 +46,10 @@ class ProductModelTwo {
     required this.taxClass,
     required this.manageStock,
     this.stockQuantity,
-    required this.inStock,
     required this.backorders,
     required this.backordersAllowed,
     required this.backordered,
+    this.lowStockAmount,
     required this.soldIndividually,
     required this.weight,
     required this.dimensions,
@@ -75,6 +75,8 @@ class ProductModelTwo {
     required this.priceHtml,
     required this.relatedIds,
     required this.metaData,
+    required this.stockStatus,
+    required this.hasOptions,
     required this.links,
   });
 
@@ -111,13 +113,13 @@ class ProductModelTwo {
   String externalUrl;
   String buttonText;
   TaxStatus taxStatus;
-  String taxClass;
+  TaxClass taxClass;
   bool manageStock;
   dynamic stockQuantity;
-  bool inStock;
   Backorders backorders;
   bool backordersAllowed;
   bool backordered;
+  dynamic lowStockAmount;
   bool soldIndividually;
   String weight;
   Dimensions dimensions;
@@ -133,16 +135,18 @@ class ProductModelTwo {
   int parentId;
   String purchaseNote;
   List<Category> categories;
-  List<dynamic> tags;
+  List<Category> tags;
   List<Images> images;
-  List<dynamic> attributes;
+  List<Attribute> attributes;
   List<dynamic> defaultAttributes;
-  List<dynamic> variations;
+  List<int> variations;
   List<dynamic> groupedProducts;
   int menuOrder;
   String priceHtml;
   List<int> relatedIds;
   List<MetaDatum> metaData;
+  StockStatus stockStatus;
+  bool hasOptions;
   Links links;
 
   factory ProductModelTwo.fromJson(Map<String, dynamic> json) => ProductModelTwo(
@@ -179,13 +183,13 @@ class ProductModelTwo {
     externalUrl: json["external_url"],
     buttonText: json["button_text"],
     taxStatus: taxStatusValues.map[json["tax_status"]]!,
-    taxClass: json["tax_class"],
+    taxClass: taxClassValues.map[json["tax_class"]]!,
     manageStock: json["manage_stock"],
     stockQuantity: json["stock_quantity"],
-    inStock: json["in_stock"],
     backorders: backordersValues.map[json["backorders"]]!,
     backordersAllowed: json["backorders_allowed"],
     backordered: json["backordered"],
+    lowStockAmount: json["low_stock_amount"],
     soldIndividually: json["sold_individually"],
     weight: json["weight"],
     dimensions: Dimensions.fromJson(json["dimensions"]),
@@ -201,16 +205,18 @@ class ProductModelTwo {
     parentId: json["parent_id"],
     purchaseNote: json["purchase_note"],
     categories: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
-    tags: List<dynamic>.from(json["tags"].map((x) => x)),
+    tags: List<Category>.from(json["tags"].map((x) => Category.fromJson(x))),
     images: List<Images>.from(json["images"].map((x) => Images.fromJson(x))),
-    attributes: List<dynamic>.from(json["attributes"].map((x) => x)),
+    attributes: List<Attribute>.from(json["attributes"].map((x) => Attribute.fromJson(x))),
     defaultAttributes: List<dynamic>.from(json["default_attributes"].map((x) => x)),
-    variations: List<dynamic>.from(json["variations"].map((x) => x)),
+    variations: List<int>.from(json["variations"].map((x) => x)),
     groupedProducts: List<dynamic>.from(json["grouped_products"].map((x) => x)),
     menuOrder: json["menu_order"],
     priceHtml: json["price_html"],
     relatedIds: List<int>.from(json["related_ids"].map((x) => x)),
     metaData: List<MetaDatum>.from(json["meta_data"].map((x) => MetaDatum.fromJson(x))),
+    stockStatus: stockStatusValues.map[json["stock_status"]]!,
+    hasOptions: json["has_options"],
     links: Links.fromJson(json["_links"]),
   );
 
@@ -248,13 +254,13 @@ class ProductModelTwo {
     "external_url": externalUrl,
     "button_text": buttonText,
     "tax_status": taxStatusValues.reverse[taxStatus],
-    "tax_class": taxClass,
+    "tax_class": taxClassValues.reverse[taxClass],
     "manage_stock": manageStock,
     "stock_quantity": stockQuantity,
-    "in_stock": inStock,
     "backorders": backordersValues.reverse[backorders],
     "backorders_allowed": backordersAllowed,
     "backordered": backordered,
+    "low_stock_amount": lowStockAmount,
     "sold_individually": soldIndividually,
     "weight": weight,
     "dimensions": dimensions.toJson(),
@@ -270,9 +276,9 @@ class ProductModelTwo {
     "parent_id": parentId,
     "purchase_note": purchaseNote,
     "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
-    "tags": List<dynamic>.from(tags.map((x) => x)),
+    "tags": List<dynamic>.from(tags.map((x) => x.toJson())),
     "images": List<dynamic>.from(images.map((x) => x.toJson())),
-    "attributes": List<dynamic>.from(attributes.map((x) => x)),
+    "attributes": List<dynamic>.from(attributes.map((x) => x.toJson())),
     "default_attributes": List<dynamic>.from(defaultAttributes.map((x) => x)),
     "variations": List<dynamic>.from(variations.map((x) => x)),
     "grouped_products": List<dynamic>.from(groupedProducts.map((x) => x)),
@@ -280,7 +286,45 @@ class ProductModelTwo {
     "price_html": priceHtml,
     "related_ids": List<dynamic>.from(relatedIds.map((x) => x)),
     "meta_data": List<dynamic>.from(metaData.map((x) => x.toJson())),
+    "stock_status": stockStatusValues.reverse[stockStatus],
+    "has_options": hasOptions,
     "_links": links.toJson(),
+  };
+}
+
+class Attribute {
+  Attribute({
+    required this.id,
+    required this.name,
+    required this.position,
+    required this.visible,
+    required this.variation,
+    required this.options,
+  });
+
+  int id;
+  String name;
+  int position;
+  bool visible;
+  bool variation;
+  List<String> options;
+
+  factory Attribute.fromJson(Map<String, dynamic> json) => Attribute(
+    id: json["id"],
+    name: json["name"],
+    position: json["position"],
+    visible: json["visible"],
+    variation: json["variation"],
+    options: List<String>.from(json["options"].map((x) => x)),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "position": position,
+    "visible": visible,
+    "variation": variation,
+    "options": List<dynamic>.from(options.map((x) => x)),
   };
 }
 
@@ -354,7 +398,6 @@ class Images {
     required this.src,
     required this.name,
     required this.alt,
-    required this.position,
   });
 
   int id;
@@ -364,8 +407,7 @@ class Images {
   DateTime dateModifiedGmt;
   String src;
   String name;
-  Alt alt;
-  int position;
+  String alt;
 
   factory Images.fromJson(Map<String, dynamic> json) => Images(
     id: json["id"],
@@ -375,8 +417,7 @@ class Images {
     dateModifiedGmt: DateTime.parse(json["date_modified_gmt"]),
     src: json["src"],
     name: json["name"],
-    alt: altValues.map[json["alt"]]!,
-    position: json["position"],
+    alt: json["alt"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -387,17 +428,9 @@ class Images {
     "date_modified_gmt": dateModifiedGmt.toIso8601String(),
     "src": src,
     "name": name,
-    "alt": altValues.reverse[alt],
-    "position": position,
+    "alt": alt,
   };
 }
-
-enum Alt { PLACEHOLDER, EMPTY }
-
-final altValues = EnumValues({
-  "": Alt.EMPTY,
-  "Placeholder": Alt.PLACEHOLDER
-});
 
 class Links {
   Links({
@@ -459,59 +492,199 @@ class MetaDatum {
   };
 }
 
-class ValueClass {
-  ValueClass({
+class PurpleValue {
+  PurpleValue({
+    required this.name,
+    required this.titleFormat,
+    required this.descriptionEnable,
+    required this.description,
+    required this.type,
+    required this.display,
+    required this.position,
+    required this.required,
+    required this.restrictions,
+    required this.restrictionsType,
+    required this.adjustPrice,
+    required this.priceType,
+    required this.price,
+    required this.min,
+    required this.max,
+    required this.options,
+  });
+
+  String name;
+  String titleFormat;
+  int descriptionEnable;
+  String description;
+  String type;
+  String display;
+  int position;
+  int required;
+  int restrictions;
+  String restrictionsType;
+  int adjustPrice;
+  String priceType;
+  String price;
+  int min;
+  int max;
+  List<Option> options;
+
+  factory PurpleValue.fromJson(Map<String, dynamic> json) => PurpleValue(
+    name: json["name"],
+    titleFormat: json["title_format"],
+    descriptionEnable: json["description_enable"],
+    description: json["description"],
+    type: json["type"],
+    display: json["display"],
+    position: json["position"],
+    required: json["required"],
+    restrictions: json["restrictions"],
+    restrictionsType: json["restrictions_type"],
+    adjustPrice: json["adjust_price"],
+    priceType: json["price_type"],
+    price: json["price"],
+    min: json["min"],
+    max: json["max"],
+    options: List<Option>.from(json["options"].map((x) => Option.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "title_format": titleFormat,
+    "description_enable": descriptionEnable,
+    "description": description,
+    "type": type,
+    "display": display,
+    "position": position,
+    "required": required,
+    "restrictions": restrictions,
+    "restrictions_type": restrictionsType,
+    "adjust_price": adjustPrice,
+    "price_type": priceType,
+    "price": price,
+    "min": min,
+    "max": max,
+    "options": List<dynamic>.from(options.map((x) => x.toJson())),
+  };
+}
+
+class Option {
+  Option({
+    required this.label,
+    required this.price,
+    required this.image,
+    required this.priceType,
+  });
+
+  String label;
+  String price;
+  String image;
+  String priceType;
+
+  factory Option.fromJson(Map<String, dynamic> json) => Option(
+    label: json["label"],
+    price: json["price"],
+    image: json["image"],
+    priceType: json["price_type"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "label": label,
+    "price": price,
+    "image": image,
+    "price_type": priceType,
+  };
+}
+
+class FluffyValue {
+  FluffyValue({
+    this.the8141,
     this.wordCount,
     this.linkCount,
     this.headingCount,
     this.mediaCount,
-    this.the0,
-    this.time,
-    this.fonts,
-    this.icons,
-    this.dynamicElementsIds,
-    this.status,
-    this.css,
+    this.the10744,
   });
 
+  The10744? the8141;
   String? wordCount;
   String? linkCount;
   String? headingCount;
   String? mediaCount;
-  String? the0;
-  int? time;
-  List<dynamic>? fonts;
-  List<dynamic>? icons;
-  List<dynamic>? dynamicElementsIds;
-  String? status;
-  String? css;
+  The10744? the10744;
 
-  factory ValueClass.fromJson(Map<String, dynamic> json) => ValueClass(
+  factory FluffyValue.fromJson(Map<String, dynamic> json) => FluffyValue(
+    the8141: json["8141"] == null ? null : The10744.fromJson(json["8141"]),
     wordCount: json["wordCount"],
     linkCount: json["linkCount"],
     headingCount: json["headingCount"],
     mediaCount: json["mediaCount"],
-    the0: json["0"],
-    time: json["time"],
-    fonts: json["fonts"] == null ? [] : List<dynamic>.from(json["fonts"]!.map((x) => x)),
-    icons: json["icons"] == null ? [] : List<dynamic>.from(json["icons"]!.map((x) => x)),
-    dynamicElementsIds: json["dynamic_elements_ids"] == null ? [] : List<dynamic>.from(json["dynamic_elements_ids"]!.map((x) => x)),
-    status: json["status"],
-    css: json["css"],
+    the10744: json["10744"] == null ? null : The10744.fromJson(json["10744"]),
   );
 
   Map<String, dynamic> toJson() => {
+    "8141": the8141?.toJson(),
     "wordCount": wordCount,
     "linkCount": linkCount,
     "headingCount": headingCount,
     "mediaCount": mediaCount,
-    "0": the0,
-    "time": time,
-    "fonts": fonts == null ? [] : List<dynamic>.from(fonts!.map((x) => x)),
-    "icons": icons == null ? [] : List<dynamic>.from(icons!.map((x) => x)),
-    "dynamic_elements_ids": dynamicElementsIds == null ? [] : List<dynamic>.from(dynamicElementsIds!.map((x) => x)),
-    "status": status,
-    "css": css,
+    "10744": the10744?.toJson(),
+  };
+}
+
+class The10744 {
+  The10744({
+    required this.videoType,
+    required this.uploadVideoId,
+    required this.uploadVideoUrl,
+    required this.youtubeUrl,
+    required this.vimeoUrl,
+    required this.autoplay,
+    required this.videoSize,
+    required this.videoControl,
+    required this.hideGalleryImg,
+    required this.hideInformation,
+    required this.audioStatus,
+  });
+
+  String videoType;
+  String uploadVideoId;
+  String uploadVideoUrl;
+  String youtubeUrl;
+  String vimeoUrl;
+  String autoplay;
+  String videoSize;
+  String videoControl;
+  String hideGalleryImg;
+  String hideInformation;
+  String audioStatus;
+
+  factory The10744.fromJson(Map<String, dynamic> json) => The10744(
+    videoType: json["video_type"],
+    uploadVideoId: json["upload_video_id"],
+    uploadVideoUrl: json["upload_video_url"],
+    youtubeUrl: json["youtube_url"],
+    vimeoUrl: json["vimeo_url"],
+    autoplay: json["autoplay"],
+    videoSize: json["video_size"],
+    videoControl: json["video_control"],
+    hideGalleryImg: json["hide_gallery_img"],
+    hideInformation: json["hide_information"],
+    audioStatus: json["audio_status"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "video_type": videoType,
+    "upload_video_id": uploadVideoId,
+    "upload_video_url": uploadVideoUrl,
+    "youtube_url": youtubeUrl,
+    "vimeo_url": vimeoUrl,
+    "autoplay": autoplay,
+    "video_size": videoSize,
+    "video_control": videoControl,
+    "hide_gallery_img": hideGalleryImg,
+    "hide_information": hideInformation,
+    "audio_status": audioStatus,
   };
 }
 
@@ -521,17 +694,32 @@ final statusValues = EnumValues({
   "publish": Status.PUBLISH
 });
 
-enum TaxStatus { NONE, TAXABLE }
+enum StockStatus { INSTOCK, OUTOFSTOCK }
+
+final stockStatusValues = EnumValues({
+  "instock": StockStatus.INSTOCK,
+  "outofstock": StockStatus.OUTOFSTOCK
+});
+
+enum TaxClass { EMPTY, ZERO_RATE }
+
+final taxClassValues = EnumValues({
+  "": TaxClass.EMPTY,
+  "zero-rate": TaxClass.ZERO_RATE
+});
+
+enum TaxStatus { TAXABLE, NONE }
 
 final taxStatusValues = EnumValues({
   "none": TaxStatus.NONE,
   "taxable": TaxStatus.TAXABLE
 });
 
-enum Type { SIMPLE }
+enum Type { SIMPLE, VARIABLE }
 
 final typeValues = EnumValues({
-  "simple": Type.SIMPLE
+  "simple": Type.SIMPLE,
+  "variable": Type.VARIABLE
 });
 
 class EnumValues<T> {
