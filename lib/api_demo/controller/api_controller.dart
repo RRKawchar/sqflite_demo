@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:sqlite_demo/api_demo/model/product_model.dart';
 
-class ApiService extends GetxController {
+class ApiController extends GetxController {
   final String apiUrl = 'https://www.mffoodmart.com/wp-json/wc/v2/products';
 
   Future<List<ProductModel>> getProducts() async {

@@ -4,7 +4,7 @@ import 'package:sqlite_demo/api_demo/controller/api_controller.dart';
 import 'package:sqlite_demo/api_demo/model/product_model.dart';
 
 class MyWidget extends StatelessWidget {
-  final ApiService apiService = Get.put(ApiService());
+  final  apiService = Get.put(ApiController());
 
   @override
   Widget build(BuildContext context) {

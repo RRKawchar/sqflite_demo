@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:sqlite_demo/api_demo/views/my_widget.dart';
-import 'package:sqlite_demo/api_demo/views/pagination_screen.dart';
+import 'package:sqlite_demo/api_demo/views/product_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PaginationScreen(),
+      home: ProductListTwoWidget(),
     );
   }
 }
