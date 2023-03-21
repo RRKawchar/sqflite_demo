@@ -6,7 +6,7 @@ import 'package:sqlite_demo/api_demo/model/product_model_two.dart';
 class ProductControllerTwo extends GetxController {
   final ProductService _productService = ProductService();
   var productList = <ProductModelTwo>[].obs;
-  RxBool isLoading = RxBool(false);
+  var isLoading = false.obs;
   int page = 1;
   int perPage = 15;
 
@@ -43,6 +43,7 @@ class ProductControllerTwo extends GetxController {
       isLoading(false);
     }
   }
+
   void loadMore() {
     if (!isLoading.value) {
       fetchProducts();

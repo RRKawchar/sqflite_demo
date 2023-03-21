@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:sqlite_demo/api_demo/views/product_page.dart';
 import 'package:sqlite_demo/api_demo_two/screens/country_screen.dart';
+import 'package:sqlite_demo/sqflite_demo1/screen/sqflite_screen.dart';
+import 'package:sqlite_demo/sqflite_demo2/screens/data_add_screen.dart';
+import 'package:sqlite_demo/sqflite_demo2/screens/data_show_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -19,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProductListTwoWidget(),
+      home: const DataAddScreen(),
     );
   }
 }

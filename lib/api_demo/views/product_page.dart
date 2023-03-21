@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:sqlite_demo/api_demo/controller/product_controller_two.dart';
 
 class ProductListTwoWidget extends StatelessWidget {
-  final ProductControllerTwo _productController = Get.put(ProductControllerTwo());
+  final ProductControllerTwo _productController =
+      Get.put(ProductControllerTwo());
 
-   ProductListTwoWidget({super.key});
+  ProductListTwoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
