@@ -4,7 +4,7 @@ import 'package:sqlite_demo/grocery_demo/model/product_model.dart';
 
 class DBHelper {
   static Database? _db;
-  static const String DB_NAME = 'mydb.db';
+  static const String DB_NAME = 'products.db';
   static const int DB_VERSION = 1;
 
   Future<Database> get db async {
