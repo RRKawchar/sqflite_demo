@@ -27,23 +27,25 @@ class StudentDatabase{
     await db.execute(
         '''CREATE TABLE groceries(
          id INTEGER PRIMARY KEY,
-         name TEXT
+         name TEXT,
+         age INTEGER,
+         grade REAL
+         
        )'''
 
     );
   }
 
 
-  // fatherName TEXT,
+
   // motherName TEXT,
   // mobile TEXT,
   // age TEXT,
   // image TEXT,
 
-  Future<int> addGrocery(Student grocery)async{
-
-    Database db=await instance.database;
-    return await db.insert('groceries', grocery.toJson());
+  Future<int> insertStudent(Student student) async {
+    var dbClient = await database;
+    return await dbClient.insert('Students', student.toJson());
   }
 
   Future<List<Student>> getGroceries()async{
@@ -55,5 +57,11 @@ class StudentDatabase{
 
     return groceryList;
 
+  }
+
+
+  Future<int> removed(int id) async {
+    Database db = await instance.database;
+    return await db.delete('groceries', where: 'id=?', whereArgs: [id]);
   }
 }
