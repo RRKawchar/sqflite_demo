@@ -8,6 +8,7 @@ import 'package:sqlite_demo/sqflite_demo1/screen/sqflite_screen.dart';
 import 'package:sqlite_demo/sqflite_demo2/screens/data_add_screen.dart';
 import 'package:sqlite_demo/sqflite_demo2/screens/data_show_screen.dart';
 import 'package:sqlite_demo/sqflite_demo3/screen/plant_screen.dart';
+import 'package:sqlite_demo/todo_app_sqflite/todo_screen/todo_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  ChiliScreen(),
+      home:  TodoScreen(),
     );
   }
 }
