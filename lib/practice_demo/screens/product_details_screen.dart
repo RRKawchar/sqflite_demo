@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sqlite_demo/practice_demo/model/cart_database/cart-database_helper.dart';
+import 'package:sqlite_demo/practice_demo/cart_database/cart-database_helper.dart';
 import 'package:sqlite_demo/practice_demo/model/cart_model.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -7,7 +7,7 @@ class ProductDetailsScreen extends StatefulWidget {
   final String image;
   final String name;
   final String description;
-  final String price;
+  final double price;
   const ProductDetailsScreen({
     Key? key,
     required this.image,

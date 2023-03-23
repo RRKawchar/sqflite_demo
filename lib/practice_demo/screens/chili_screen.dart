@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sqlite_demo/practice_demo/product_details_screen.dart';
+import 'package:sqlite_demo/practice_demo/screens/cart_screen.dart';
+import 'package:sqlite_demo/practice_demo/screens/product_details_screen.dart';
 
 class ChiliScreen extends StatelessWidget {
   ChiliScreen({Key? key}) : super(key: key);
-  var images = [
+
+  List<Map<String,dynamic>> images = [
     {
-      'id': '1',
+      'id': 1,
       'image': "https://www.pngmart.com/files/22/Green-chili-PNG-HD.png",
       'productName': "Green Chili",
-      'price': "35.8",
+      'price': 35.8,
       'description': "Lorem Ipsum is simply dummy text of the"
           " printing and typesetting industry. Lorem Ipsum has been the industry's"
           " standard dummy text ever since the 1500s, when an unknown printer"
@@ -16,11 +18,11 @@ class ChiliScreen extends StatelessWidget {
           "book. It has survived not only five centuries"
     },
     {
-      'id': '2',
+      'id': 2,
       'image':
           "https://freepngimg.com/thumb/pepper/37-red-chili-pepper-png-image.png",
       'productName': "Red Chili",
-      'price': "44.8",
+      'price': 44.8,
       'description': "Lorem Ipsum is simply dummy text of the"
           " printing and typesetting industry. Lorem Ipsum has been the industry's"
           " standard dummy text ever since the 1500s, when an unknown printer"
@@ -28,11 +30,11 @@ class ChiliScreen extends StatelessWidget {
           "book. It has survived not only five centuries"
     },
     {
-      'id': '3',
+      'id': 3,
       'image':
           "https://i.pinimg.com/originals/31/08/47/3108475d8fd5d302cbcd7b6e945e8e2d.png",
       'productName': "Red and Green Chili",
-      'price': "44.8",
+      'price': 44.8,
       'description': "Lorem Ipsum is simply dummy text of the"
           " printing and typesetting industry. Lorem Ipsum has been the industry's"
           " standard dummy text ever since the 1500s, when an unknown printer"
@@ -40,10 +42,10 @@ class ChiliScreen extends StatelessWidget {
           "book. It has survived not only five centuries"
     },
     {
-      'id': '4',
+      'id':4,
       'image': "https://freepngimg.com/thumb/tomato/6-tomato-png-image.png",
       'productName': "Tomato",
-      'price': "333.8",
+      'price': 333.8,
       'description': "Lorem Ipsum is simply dummy text of the"
           " printing and typesetting industry. Lorem Ipsum has been the industry's"
           " standard dummy text ever since the 1500s, when an unknown printer"
@@ -51,11 +53,11 @@ class ChiliScreen extends StatelessWidget {
           "book. It has survived not only five centuries"
     },
     {
-      'id': '5',
+      'id': 5,
       'image':
           "https://freepngimg.com/save/163593-fresh-pic-onion-free-transparent-image-hd/2369x1565",
       'productName': "Onion",
-      'price': "40.8",
+      'price': 40.8,
       'description': "Lorem Ipsum is simply dummy text of the"
           " printing and typesetting industry. Lorem Ipsum has been the industry's"
           " standard dummy text ever since the 1500s, when an unknown printer"
@@ -63,10 +65,10 @@ class ChiliScreen extends StatelessWidget {
           "book. It has survived not only five centuries"
     },
     {
-      'id': '6',
+      'id': 6,
       'image': 'https://www.pngmart.com/files/1/Chicken-Meat-PNG-File.png',
       'productName': "Chicken Meat",
-      'price': "250.8",
+      'price': 250.8,
       'description': "Lorem Ipsum is simply dummy text of the"
           " printing and typesetting industry. Lorem Ipsum has been the industry's"
           " standard dummy text ever since the 1500s, when an unknown printer"
@@ -103,7 +105,7 @@ class ChiliScreen extends StatelessWidget {
                                     name: name.toString(),
                                     description: description.toString(),
                                     image: image.toString(),
-                                    price: price.toString(),
+                                    price: price,
                                   )));
                     },
                     child: Container(
@@ -119,6 +121,13 @@ class ChiliScreen extends StatelessWidget {
             ),
           );
         }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => CartScreen()));
+        },
+        child: Icon(Icons.arrow_forward_ios),
       ),
     );
   }
